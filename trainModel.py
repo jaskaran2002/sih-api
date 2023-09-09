@@ -3,9 +3,11 @@ import numpy as np
 from PIL import Image
 import os
 
+basePath = os.getcwd() + '/'
+
 def trainModel(path, doctor):
     recognizer = cv2.face.LBPHFaceRecognizer_create()
-    detector = cv2.CascadeClassifier("./haarcascade_frontalface_default.xml")
+    detector = cv2.CascadeClassifier(basePath + "haarcascade_frontalface_default.xml")
 
     def getImagesAndLabels(path):
         imagePaths = [os.path.join(path,f) for f in os.listdir(path)]     
@@ -27,9 +29,9 @@ def trainModel(path, doctor):
     recognizer.train(faces, np.array(ids))
 
     if doctor == 1:
-        recognizer.write('./doctor.yml')
+        recognizer.write(basePath + 'doctor.yml')
     else:
-        recognizer.write('./patient.yml')
+        recognizer.write(basePath + 'patient.yml')
     
 
 # path = './db'

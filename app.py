@@ -16,8 +16,11 @@ import sys
 import os
 
 
+
 app=Flask(__name__)
 CORS(app)
+
+basePath = os.getcwd() + '/'
 
 @app.route('/')
 def hello_world():
@@ -48,14 +51,14 @@ def addFace():
     links = data['links']
     id = str(data['id'])
     doctor = int(data['doctor'])
-    faceCascade = cv2.CascadeClassifier('./haarcascade_frontalface_default.xml')
+    faceCascade = cv2.CascadeClassifier(basePath + 'haarcascade_frontalface_default.xml')
 
     if doctor == 1:
-        os.makedirs('./db/doctor/' + id)
-        path = './db/doctor/' + id + '/'
+        os.makedirs(basePath + 'db/doctor/' + id)
+        path = basePath +  'db/doctor/' + id + '/'
     else:
-        os.makedirs('./db/patient/' + id)
-        path = './db/patient/' + id + '/'
+        os.makedirs(basePath + 'db/patient/' + id)
+        path = basePath + 'db/patient/' + id + '/'
 
     # added images
     count = 0

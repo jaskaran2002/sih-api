@@ -3,6 +3,7 @@ import numpy as np
 import urllib.request
 import os 
 
+basePath = os.getcwd() + '/'
 
 def recognizeF(link,doctor):
     req = urllib.request.urlopen(link)
@@ -10,10 +11,10 @@ def recognizeF(link,doctor):
     img = cv2.imdecode(arr, -1)
     recognizer = cv2.face.LBPHFaceRecognizer_create()
     if doctor == 1:
-        recognizer.read('./doctor.yml')
+        recognizer.read(basePath + 'doctor.yml')
     else:
-        recognizer.read('./patient.yml')
-    cascadePath = "./haarcascade_frontalface_default.xml"
+        recognizer.read(basePath + 'patient.yml')
+    cascadePath = basePath + "haarcascade_frontalface_default.xml"
     faceCascade = cv2.CascadeClassifier(cascadePath)
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     faces = faceCascade.detectMultiScale( 
