@@ -51,10 +51,10 @@ def addFace():
     faceCascade = cv2.CascadeClassifier('./haarcascade_frontalface_default.xml')
 
     if doctor == 1:
-        os.mkdir('./db/doctor/' + id)
+        os.makedirs('./db/doctor/' + id)
         path = './db/doctor/' + id + '/'
     else:
-        os.mkdir('./db/patient/' + id)
+        os.makedirs('./db/patient/' + id)
         path = './db/patient/' + id + '/'
 
     # added images
