@@ -1,0 +1,9 @@
+Flask
+gunicorn
+requests
+flask-cors
+python-opencv
+numpy
+urllib
+json
+Pillow
