@@ -2,8 +2,9 @@ Flask
 gunicorn
 requests
 flask-cors
-python-opencv
+opencv-python
 numpy
 urllib
 json
 Pillow
+opencv-contrib-python
