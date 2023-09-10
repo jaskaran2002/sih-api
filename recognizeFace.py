@@ -6,7 +6,9 @@ import os
 basePath = os.getcwd() + '/'
 
 def recognizeF(link,doctor):
-    req = urllib.request.urlopen(link)
+    req = urllib.request.Request(url=link, headers={'User-Agent': 'Mozilla/5.0'})
+    req = urllib.request.urlopen(req)
+    # req = urllib.request.urlopen(link)
     arr = np.asarray(bytearray(req.read()), dtype=np.uint8)
     img = cv2.imdecode(arr, -1)
     recognizer = cv2.face.LBPHFaceRecognizer_create()

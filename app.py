@@ -3,6 +3,7 @@ from flask_cors import CORS, cross_origin
 import cv2
 import numpy as np
 import urllib.request
+from urllib.request import Request
 
 from countface import countF
 from trainModel import trainModel
@@ -46,8 +47,8 @@ def getcount():
 def addFace():
     data = request.get_json()
     keys = data.keys()
-    if 'links' not in keys or 'id' not in keys or not data['id'].isdigit(): 
-        return Response({'staus' : 'Error'}, mimetype='application/json', status=404)
+    if 'links' not in keys or 'id' not in keys  or 'doctor' not in keys: 
+        return Response(json.dumps({'staus' : 'Error'}), mimetype='application/json', status=404)
     links = data['links']
     id = str(data['id'])
     doctor = int(data['doctor'])
@@ -61,9 +62,11 @@ def addFace():
         path = basePath + 'db/patient/' + id + '/'
 
     # added images
+    print('adding images')
     count = 0
     for link in links:
-        req = urllib.request.urlopen(link)
+        req = Request(url=link, headers={'User-Agent': 'Mozilla/5.0'})
+        req = urllib.request.urlopen(req)
         arr = np.asarray(bytearray(req.read()), dtype=np.uint8)
         img = cv2.imdecode(arr, -1)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -79,10 +82,14 @@ def addFace():
             for (x,y,w,h) in faces:
                 cv2.imwrite(f"{path}{count}.jpg",gray[y:y+h, x:x+w])
         count+=1
-
-    done = trainModel(path,doctor)
+    print('training model')
+    if doctor == 1:
+        done = trainModel(basePath + 'db/doctor/',doctor)
+    else:
+        done = trainModel(basePath + 'db/patient/', doctor)
+    print('trained model')
     if not done:
-        return Response(json.dumps({'staus' : 'Error'}), mimetype='application/json', status=404)
+        return Response(json.dumps({'staus' : 'Error1'}), mimetype='application/json', status=404)
     return Response(json.dumps({'staus' : 'Done'}), mimetype='application/json', status=200)
     
 

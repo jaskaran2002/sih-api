@@ -32,6 +32,7 @@ def trainModel(path, doctor):
         recognizer.write(basePath + 'doctor.yml')
     else:
         recognizer.write(basePath + 'patient.yml')
+    return True
     
 
 # path = './db'
