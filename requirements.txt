@@ -4,7 +4,5 @@ requests
 flask-cors
 opencv-python
 numpy
-urllib
-json
 Pillow
 opencv-contrib-python
